@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>flex-notifictaions</title>
+<link rel="stylesheet" href="styles/normalize.css">
+<style>
+.mod-notifications {
+  padding: 10px;
+  height: -webkit-calc(100% - 10px * 2);
+  height: calc(100% - 10px * 2);
+
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  -webkit-flex-wrap: wrap-reverse;
+  -webkit-justify-content: flex-start;
+  -webkit-align-content: flex-start;
+
+  pointer-events: none;
+  -webkit-pointer-events: none;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100000;
+}
+
+.mod-notifications-notif {
+  margin: 10px 0 0 10px;
+  border: solid rgba(0,0,0,.3) 1px;
+  border-radius: 5px;
+  padding: 10px 0;
+
+  -webkit-flex: 1 1 auto;
+  width: 300px;
+  min-height: 50px;
+  max-height: 50px;
+
+  overflow: auto;
+  position: relative;
+
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f6f7), to(#e1e3e5));
+  box-shadow: 0px 0px 15px rgba(10,10,10,.3), 1px 1px 1px #fff inset;
+
+  pointer-events: auto;
+  -webkit-pointer-events: auto;
+}
+
+  .mod-notifications-notif p {
+    margin: 0;
+    padding: 0 80px 0 10px;
+  }
+  .mod-notifications-notif .mod-notifications-notif-title {
+    font-weight: bold;
+  }
+
+
+  .mod-notifications-notif .mod-notifications-notif-close {
+    border: solid #88898a 1px;
+    border-radius: 5px;
+    padding: 3px 7px;
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-image: -webkit-gradient(linear, center top, center bottom, from(#fbfbfc), to(#f1f3f4));
+    box-shadow: 0px 0px 5px rgba(255,255,255,.7), 0px 0px 1px #fff inset;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<p><input type="button" id="add" value="Add Notification"></p>
+
+<div class="mod-notifications">
+</div>
+
+</body>
+<script>
+(function() {
+  var i = 0;
+  var add = document.getElementById('add');
+  var notifications = document.getElementsByClassName('mod-notifications')[0];
+
+  add.addEventListener('click', function() {
+    var notif = document.createElement('div');
+    notif.setAttribute('class', 'mod-notifications-notif');
+    notif.innerHTML = [
+      '<span class="mod-notifications-notif-close">閉じる</span>',
+      '<p class="mod-notifications-notif-message">nofit: ' + i++ + '</p>'
+    ].join('');
+    notifications.appendChild(notif);
+  }, false);
+
+  document.body.addEventListener('click', function(e) {
+    var target = e.target;
+    if ( target
+      && target.className
+      && /^mod-notifications-notif-close$/.test(target.className)
+    ) {
+      target.parentNode.parentNode.removeChild(target.parentNode);
+    }
+  }, false);
+}());
+</script>
+</body>
+</html>
